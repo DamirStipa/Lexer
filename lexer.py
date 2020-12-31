@@ -29,8 +29,8 @@ tokens = [
     'LBRACE',       # [
     'RBRACE',       # ]
     'BLOCKSTART',   # {
-    'BLOCKEND',
-    'WHITESPACE',    # }
+    'BLOCKEND',     # }
+    'WHITESPACE',   # ' ' 
 
   # DATA TYPES#
     'INTEGER',      # int
@@ -152,8 +152,11 @@ operators = []
 separators_count=0
 separators = []
 reserved_count=0
+reserved = []
 constants_count=0
+constants = []
 comments_count=0
+comments = []
 
 for line in split_data:
     print("\nLine " + str(line_count+1) + ":  " + str(line)) #Printing out the line 
@@ -182,12 +185,15 @@ for line in split_data:
             print(str(y[1]) + ", operator")
         elif y[0] == "COMMENT":
             comments_count +=1
+            comments.append(y[1].strip("''"))
             print(str(y[1]) + ", komentar")
         elif y[0] == "INTEGER" or y[0] =="FLOAT":
             constants_count += 1
+            constants.append(y[1].strip("''"))
             print(str(y[1]) + ", konstanta")
         elif y[0] == "IF" or y[0] == "FOR" or y[0] == "ELSE" or y[0] == "WHILE":
             reserved_count += 1
+            reserved.append(y[1].strip("''"))
             print(str(y[1]) + ", kljucna rijec")
         elif y[0] == "ID":
             identifiers_count += 1
@@ -199,11 +205,14 @@ for line in split_data:
 iden = str(Counter(identifiers)).split("Counter")
 oper = str(Counter(operators)).split("Counter")
 sepa = str(Counter(separators)).split("Counter")
+cons = str(Counter(constants)).split("Counter")
+comm = str(Counter(comments)).split("Counter")
+res = str(Counter(reserved)).split("Counter")
 
 
 print("\nIdentifikatori: [" + str(identifiers_count) + "]: " + str(iden[1].strip("(){}")))
-print("Kljucne rijeci [" + str(reserved_count) + "] ")
+print("Kljucne rijeci [" + str(reserved_count) + "] " + str(res[1].strip("(){}")))
 print("Separatori: [" + str(separators_count) + "]: " + str(sepa[1].strip("(){}")))
 print("Operatori: [" + str(operators_count) + "]: " + str(oper[1].strip("(){}")))
-print("Konstante: [" + str(constants_count) + "] ")
-print("Komentari: [" + str(comments_count) + "] \n")
+print("Konstante: [" + str(constants_count) + "] " + str(cons[1].strip("(){}")))
+print("Komentari: [" + str(comments_count) + "] " + str(comm[1].strip("(){}")) + "\n")
