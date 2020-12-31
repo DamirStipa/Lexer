@@ -79,7 +79,7 @@ reserved_words = {
 
 tokens = tokens + list(reserved_words.values())
 
-#Rules for INTEGER and FLOAT tokens
+#Rules for INTEGER, WHITESPACE and FLOAT tokens
 def t_INTEGER(t):
     r'(?<!\.)\d+(?!\.)(?![0-9])'
     t.value = int(t.value)    
@@ -104,11 +104,7 @@ def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
-#Reserved words
-#def t_ID(t):
-#    r'[a-zA-Z_][a-zA-Z_0-9]*'
-#    return t
-
+#Rules for reserved words
 def t_IF(t):
     r'\bif\b'
     t.type = reserved_words.get(t.value, 'IF')
@@ -129,15 +125,16 @@ def t_WHILE(t):
     t.type = reserved_words.get(t.value, 'WHILE')
     return t
 
+#Building the lexer
 lexer = lex.lex()
 
+#Testing data
 data = '''
 [25.5 / (3 * 40) + {300 - 20} -16.5]
 a = b + c
 {(300 - 250 )<(400 - 500 )}
 20 & 30 | 50
 if(i > 5 ) while() for() else
-# This is a comment
 '''
 split_data = data.split("\n")
 split_data.remove("")
